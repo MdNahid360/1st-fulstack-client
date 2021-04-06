@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Checkout = ({product}) => {
+const Checkout = () => {
     return (
-        <div className="col-md-3">
-               <img style={{height: '300px'}}  src={require(`../../img/Products/${product.productImg}`)} />
-               <h5>{product.name}</h5>
+        <div>
+            <h1>i am checkout</h1>
         </div>
     );
 };

@@ -7,60 +7,78 @@ import {
   Link
 } from "react-router-dom";
 import Home from './component/Home/Home';
+import AddProducts from './component/AddProducts/AddProducts';
+import Login from './component/Login/Login';
+import Checkout from './component/Checkout/Checkout';
+import { createContext, useState } from 'react';
+import PrivetRoute from './component/PrivetRoute.js/PrivetRoute';
+ 
 
+export const UserContext = createContext();
 
 
 function App() {
+
+    const [loggedInUser, setLoggedInUser] = useState({});
+
   return (
     <div className="App">
-                <Router>
-      <div>
-      
-          <nav className="navbar navbar-light navbar-expand-lg sticky-top">
-                <div className="container">
-                      <a href="#" className="navbar-brand font-weight-bold">Fresh Valley</a>
-                      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                      <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav ml-auto">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/home">Home</Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/order">Order</Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/admin">Admin</Link>
-                      </li>
-                      </ul>
-                      </div>
-                </div>
-          </nav>
+              <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
+             
+             <Router>
+             <nav className="navbar navbar-light navbar-expand-lg sticky-top">
+        <div className="container">
+              <a href="#" className="navbar-brand font-weight-bold">Fresh Valley</a>
+              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link className="nav-link text-dark" to="/home">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-dark" to="/order">Order</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-dark" to="/addProduct">Admin</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-dark" to="/Deals">Deals</Link>
+              </li>
+             
+              <li className="nav-item">
+                <img src={loggedInUser.photo}  className="img-fluid logo"/>
+              </li>
 
-        {/*
-          A <Switch> looks through all its children <Route>
-          elements and renders the first one whose path
-          matches the current URL. Use a <Switch> any time
-          you have multiple routes, but you want only one
-          of them to render at a time
-        */}
-        <Switch>
+              </ul>
+              </div>
+        </div>
+  </nav>
+          <Switch>
           <Route exact path="/">
             <Home />
           </Route>
+          <Route  path="/logo">
+            <Home />
+          </Route>
+          <PrivetRoute  path="/checkout">
+           <Checkout />
+           </PrivetRoute>
           <Route  path="/home">
             <Home />
           </Route>
-          <Route path="/order">
-          
+          <Route path="/login">
+             <Login></Login>
           </Route>
-          <Route path="/admin">
- 
-           </Route>
+          <PrivetRoute path="/addProduct">
+                  <AddProducts />
+            </PrivetRoute>
         </Switch>
-      </div>
+
     </Router>
+      </UserContext.Provider>
+
     </div>
   );
 }
